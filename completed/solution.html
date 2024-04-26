@@ -8,12 +8,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="main.css">
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
         <script src="main.js"  defer></script>
         
     </head>
     <body>        
         <div id="main-container">
-            
+            <div class="main-container">
+                <h1 class="text-center" >Homework #6: Extra Credit</h1>
+                <h3 class="text-center">Shreyansh Raj - sraj25@asu.edu</h3>
+                <p id="head">Title: Correlation between crimes and unemployment across U.S.A</p>
+                <div id="category">
+                <label >Category</label>
+                <select name="category" id="cat-dd" >
+                    <option selected disabled id="op1">--Select Catogory of Crimes--</option>
+                </select>
+               </div>
+                <div  id="svg_container">
+                <svg id="svg_main"></svg> 
+                <svg id="svg_sec"></svg>
+                </div>
+            </div>
         </div>
     </body>
 </html>

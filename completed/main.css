@@ -1,0 +1,23 @@
+#svg_main{
+    border: 1px solid black;
+    height: 500px;
+    width: 700px;
+    margin: 0.5em;
+}
+
+#svg_sec{
+    
+    border: 1px solid black;
+    height: 500px;
+    width: 600px;
+}
+
+#head{
+    text-align: center;
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+#category{
+    margin-left: 1em;
+}
