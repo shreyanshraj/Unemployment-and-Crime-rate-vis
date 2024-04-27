@@ -66,6 +66,9 @@
           .style("stroke", "transparent")
       }
     
+      let mouseclick = function(d){
+        console.log(d);
+      }
       // Draw the map
       svg.append("g")
         .selectAll("path")
@@ -86,6 +89,7 @@
           .style("opacity", 1)
           .on("mouseover", mouseOver )
           .on("mouseleave", mouseLeave )
+          .on("click",mouseclick)
     
     })
     
