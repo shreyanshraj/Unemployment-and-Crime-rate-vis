@@ -30,19 +30,20 @@
     
     // Data and color scale
     const data = new Map();
-    const colorScale = d3.scaleThreshold([1, 1], ["red", "white", "blue"]);
-    // const colorScale = d3.scaleThreshold()
-    //   .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
-    //   .range(d3.schemeBlues[7]);
+    // const colorScale = d3.scaleThreshold([1, 1], ["red", "white", "blue"]);
+    const colorScale = d3.scaleThreshold()
+      .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
+      .range(d3.schemeReds[7]);
     
     // Load external data and boot
     Promise.all([
     d3.json("/dataset/cb_2014_us_state_5m.geojson"),
     d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) {
         data.set(d.code, +d.pop)
+        // console.log(data);
     })]).then(function(loadData){
         let topo = loadData[0]
-    
+      console.log(topo);
         let mouseOver = function(d) {
         d3.selectAll(".Country")
           .transition()
