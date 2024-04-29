@@ -140,7 +140,7 @@ function mapPlot(){
         .attr('class', 'label_t')
         .attr('x',width/2-120)
         .style('text-anchor','middle')
-        .text('Chloropleth Map of unemployment' )
+        .text('Chloropleth Map of unemployment in 2019' )
 
         svg_hm.append('text')
         // .attr('transform','rotate(90)')
