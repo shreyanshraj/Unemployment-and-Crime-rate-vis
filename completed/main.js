@@ -27,11 +27,11 @@ document.addEventListener("DOMContentLoaded",function(){
     })
 
     unemploy_data.map(function(u){
-        u['Year']= + u['Year']
+        // u['Year']= + u['Year']
         u['unemployed percent'] =  +u['unemployed percent']
     })
 
-    // console.log('unem',unemploy_data);
+    console.log('unem',unemploy_data);
     // console.log('crime',crime_data);
     console.log('us',us_state);
 
@@ -65,7 +65,10 @@ const margin = { top: 10, right: 10, bottom: 10, left: 10 };
 function mapPlot(){
     // console.log('ca');
     const data = new Map();
-    const colorScale = d3.scaleThreshold([1, 1], ["red", "white", "blue"]);
+    // const colorScale = d3.scaleThreshold([1, 1], ["red", "white", "blue"]);
+    const colorScale = d3.scaleThreshold()
+      .domain([1, 2, 3, 4, 5, 6])
+      .range(d3.schemeReds[7]);
     const path = d3.geoPath();
     const projection = d3.geoMercator()
       .scale(700)
@@ -74,24 +77,155 @@ function mapPlot(){
     var svg_hm = d3.select("#svg_main")
     let topo = us_state
     // console.log(topo);
+
+    let mouseleave = function(d) {
+      d3.selectAll("States")
+        .transition()
+        .duration(200)
+        .style("opacity", .8)
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("stroke", "transparent")
+    }
+  
+    let mouseclick = function(event, d){
+      // console.log('test',d);
+      bargraph_data=[]
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("stroke", "blue")
+      barGraph(d)
+    }
+
+    let mouseover = function(d) {
+      d3.selectAll("States")
+        .transition()
+        .duration(200)
+        .style("opacity", .5)
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("opacity", 1)
+        .style("stroke", "black")
+    }
+
     svg_hm.append("g")
         .selectAll("path")
         .data(topo.features)
         .enter()
         .append("path")
-          // draw each country
+          // draw each state
           .attr("d", d3.geoPath()
             .projection(projection)
           )
-          // set the color of each country
+          // set the color of each state
           .attr("fill", function (d) {
             d.total = data.get(d.id) || 0;
+            // console.log(d);
             return colorScale(d.total);
           })
           .style("stroke", "transparent")
           .attr("class", function(d){ return "States" } )
           .style("opacity", 1)
-        //   .on("mouseover", mouseOver )
-        //   .on("mouseleave", mouseLeave )
-        //   .on("click",mouseclick)
+          .on("mouseover", mouseover )
+          .on("mouseleave", mouseleave )
+          .on("click",mouseclick)
+
+
+        
 }
+var state_name;
+var bargraph_data=[]
+function barGraph(data){
+  // console.log(data);
+
+
+  const margin = {top: 20, right: 30, bottom: 40, left: 60},
+    width_bc = 450 - margin.left - margin.right,
+    height_bc = 400 - margin.top - margin.bottom;
+
+  
+  state_name = data.properties.NAME
+  // console.log(state_name);
+
+
+  crime_data.forEach(element => {
+    // console.log(element['state_name']);
+    if (element['state_name'] == state_name){
+      bargraph_data.push(element)
+    }
+  });
+
+  d3.selectAll('#svg_sec>*').remove()
+  // console.log(bargraph_data[0]);
+  svg_bg = d3.select('#svg_sec')
+
+  // console.log(bargraph_data[0]);
+  // var bargraph_data_arr = bargraph_data[0];
+  var bargraph_data_arr = Object.entries(bargraph_data[0])
+  
+  // console.log(bargraph_data_arr);
+  let bg_rect_arr = [];
+  var bp_crime ;
+  var bp_crime_n ;
+  let tot_count = 0
+  let max_val =0;
+  bargraph_data_arr.forEach(function(f){
+    // console.log(f);
+    if (cat_array.includes(f[0])){
+      // console.log(f[1]);
+      tot_count += f[1]
+      if (f[1]>= max_val){
+        max_val = f[1]
+      }
+    }
+  })
+
+  for(var i=2;i<bargraph_data_arr.length;i++){
+    // console.log(bargraph_data_arr[i][1]);
+    bp_crime = bargraph_data_arr[i][0]
+    // bp_crime_n = (bargraph_data_arr[i][1]/tot_count)*100
+    bp_crime_n = bargraph_data_arr[i][1]
+    bg_rect_arr.push({'Name':bp_crime, value : bp_crime_n})
+  }
+
+  // bg_rect_arr = barg
+  const x = d3.scaleBand()
+  .range([ 0, width_bc ])
+  .domain(bg_rect_arr.map(d => d.Name))
+  .padding(0.2)
+
+
+  console.log(bargraph_data_arr);
+  // console.log('max',max_val);
+  var y = d3.scaleLinear()
+  .domain([0, max_val+5000])
+  .range([ height_bc,0])
+  .nice()
+
+  svg_bg.append("g")
+        .attr("transform", `translate(150, ${height_bc+70})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
+
+  svg_bg.append("g")
+  .call(d3.axisLeft(y))
+  .attr("transform", `translate(150, 70)`)
+  
+  console.log('bg',bg_rect_arr);
+
+  svg_bg.selectAll("myRect")
+        .data(bg_rect_arr)
+        .join("rect")
+            .attr("x", d=>x(d.Name)+150 )
+            .attr("y", d=>y(d.value)+150 )
+            .attr("width",  x.bandwidth())
+            .attr("height", d=>height_bc - y(d.value))
+            .attr("fill", '#69b3a2')
+
+}
+
