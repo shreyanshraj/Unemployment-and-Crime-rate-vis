@@ -1,4 +1,3 @@
-var cat_array=['violent_crime','homicide','sexual_assault','robbery','aggravated_assault','property_crime','burglary','larceny','motor_vehicle_theft']
 
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -35,45 +34,21 @@ document.addEventListener("DOMContentLoaded",function(){
     // console.log('crime',crime_data);
     console.log('us',us_state);
 
-    // cat_option = document.getElementById("cat-dd");
-    //     // cat_option.innerHTML=""
-    // for (var i=0; i< cat_array.length; i++){
-    //     header = cat_array[i]
-    //     var el = document.createElement("option");
-    //     el.textContent = header;
-    //     el.value=  header;
-    //     cat_option.appendChild(el)
-    // }
-
-
     // dataFilter();
     mapPlot()
     })
 })
 
-function dataFilter(){
-    
-    
-}
 
 const margin = { top: 10, right: 10, bottom: 10, left: 10 };
         width = 1000 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
-
+var cat_array=['violent_crime','homicide','sexual_assault','robbery','aggravated_assault','property_crime','burglary','larceny','motor_vehicle_theft']
 // initial chloropleth map is based on state employment figures for year 2019
 //based on state selected by user, we will generate bar graph showing different crimes in that city
 function mapPlot(){
     // console.log('ca');
-    const data = new Map();
-    // const colorScale = d3.scaleThreshold([1, 1], ["red", "white", "blue"]);
-    const colorScale = d3.scaleThreshold()
-      .domain([1, 2, 3, 4, 5, 6])
-      .range(d3.schemeReds[7]);
-    const path = d3.geoPath();
-    const projection = d3.geoMercator()
-      .scale(700)
-      .center([-450,35])
-      .translate([width / 2, height / 2]);
+   
     var svg_hm = d3.select("#svg_main")
     let topo = us_state
     // console.log(topo);
@@ -87,6 +62,7 @@ function mapPlot(){
         .transition()
         .duration(200)
         .style("stroke", "transparent")
+      // d3.selectAll('#svg_sec>*').remove()
     }
   
     let mouseclick = function(event, d){
@@ -122,8 +98,7 @@ function mapPlot(){
           )
           // set the color of each state
           .attr("fill", function (d) {
-            d.total = data.get(d.id) || 0;
-            // console.log(d);
+            d.total = get_val(d.properties.NAME)
             return colorScale(d.total);
           })
           .style("stroke", "transparent")
@@ -133,8 +108,71 @@ function mapPlot(){
           .on("mouseleave", mouseleave )
           .on("click",mouseclick)
 
+    // add color legend
+      svg_hm.selectAll(".firstrow")
+      .data([2,2.5,3,3.5,4,4.5,5,5.5])
+      .enter()
+      .append("circle")
+      .attr("cx", function(d,i){return 600 + i*30})
+      .attr("cy", 20)
+      .attr("r", 10)
+      .attr("fill", function(d){return colorScale(d) })
 
-        
+
+      // svg_hm.append('text')
+      //   // .attr('transform','rotate(90)')
+      //   .attr('y',25)
+      //   .attr('class', 'label')
+      //   .attr('x',width/2+50)
+      //   .style('text-anchor','middle')
+      //   .text('Color Legend' )
+    
+        svg_hm.append('text')
+        // .attr('transform','rotate(90)')
+        .attr('y',45)
+        .attr('class', 'label')
+        .attr('x',width/2+110)
+        .style('text-anchor','middle')
+        .text('2.1' )
+
+        svg_hm.append('text')
+        // .attr('transform','rotate(90)')
+        .attr('y',45)
+        .attr('class', 'label')
+        .attr('x',width/2+290)
+        .style('text-anchor','middle')
+        .text('5.5' )
+
+        svg_hm.append('text')
+        // .attr('transform','rotate(90)')
+        .attr('y',25)
+        .attr('class', 'label_t')
+        .attr('x',width/2-120)
+        .style('text-anchor','middle')
+        .text('Chloropleth Map of unemployment' )
+      
+}
+
+const data = new Map();
+const colorScale = d3.scaleThreshold()
+  .domain([2,2.5,3,3.5,4,4.5,5,5.5])
+  .range(d3.schemeBlues[7]);
+const path = d3.geoPath();
+const projection = d3.geoMercator()
+  .scale(700)
+  .center([-450,35])
+  .translate([width / 2, height / 2]);
+
+  
+function get_val(name){
+  for (let i = 0;i<unemploy_data.length ; i++){
+    if (unemploy_data[i]['State/Area'] == name){
+      // console.log('yes',unemploy_data[i]['unemployed percent']);
+      return unemploy_data[i]['unemployed percent']
+    }
+    
+    
+  }
 }
 var state_name;
 var bargraph_data=[]
@@ -198,7 +236,7 @@ function barGraph(data){
   .padding(0.2)
 
 
-  console.log(bargraph_data_arr);
+  // console.log(bargraph_data_arr);
   // console.log('max',max_val);
   var y = d3.scaleLinear()
   .domain([0, max_val+5000])
@@ -206,7 +244,7 @@ function barGraph(data){
   .nice()
 
   svg_bg.append("g")
-        .attr("transform", `translate(150, ${height_bc+70})`)
+        .attr("transform", `translate(150, ${height_bc+50})`)
         .call(d3.axisBottom(x))
         .selectAll("text")
         .attr("transform", "translate(-10,0)rotate(-45)")
@@ -214,9 +252,9 @@ function barGraph(data){
 
   svg_bg.append("g")
   .call(d3.axisLeft(y))
-  .attr("transform", `translate(150, 70)`)
+  .attr("transform", `translate(150, 50)`)
   
-  console.log('bg',bg_rect_arr);
+  // console.log('bg',bg_rect_arr);
 
   svg_bg.selectAll("myRect")
         .data(bg_rect_arr)
@@ -224,8 +262,33 @@ function barGraph(data){
             .attr("x", d=>x(d.Name)+150 )
             .attr("y", d=>y(d.value)+150 )
             .attr("width",  x.bandwidth())
-            .attr("height", d=>height_bc - y(d.value))
+            .attr("height", d=>y(height_bc) - y(d.value))
             .attr("fill", '#69b3a2')
+
+
+  svg_bg.append('text')
+  .attr('transform','rotate(-90)')
+  .attr('y',height_bc/2-75)
+  .attr('class', 'label')
+  .attr('x',width_bc/2-400)
+  .style('text-anchor','middle')
+  .text('Number of Crime' )
+
+  svg_bg.append('text')
+        .attr('y',height_bc/2+300)
+        .attr('class', 'label')
+        .attr('x',width_bc/2+180)
+        .style('text-anchor','middle')
+        .text('Type of Crime' )
+
+  var textg_b = 'Total number of crimes in ' + state_name + ' : ' + tot_count.toString()
+  svg_bg.append('text')
+  // .attr('transform','rotate(90)')
+  .attr('y',height_bc/2-150)
+  .attr('class', 'label')
+  .attr('x',width_bc/2+180)
+  .style('text-anchor','middle')
+  .text(textg_b)
 
 }
 

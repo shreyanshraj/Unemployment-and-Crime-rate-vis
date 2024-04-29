@@ -40,10 +40,10 @@
     d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
     d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) {
         data.set(d.code, +d.pop)
-        // console.log(data);
+        
     })]).then(function(loadData){
         let topo = loadData[0]
-      console.log(topo);
+      // console.log(topo);
         let mouseOver = function(d) {
         d3.selectAll(".Country")
           .transition()
@@ -55,7 +55,7 @@
           .style("opacity", 1)
           .style("stroke", "black")
       }
-    
+      console.log(data);
       let mouseLeave = function(d) {
         d3.selectAll(".Country")
           .transition()
@@ -68,7 +68,7 @@
       }
     
       let mouseclick = function(d){
-        console.log(d);
+        // console.log(d);
       }
       // Draw the map
       svg.append("g")
@@ -82,8 +82,11 @@
           )
           // set the color of each country
           .attr("fill", function (d) {
-            console.log('d',d);
-            console.log('data',data);
+            // console.log('d',d);
+            console.log(d);
+            // console.log('data',data);
+            // console.log('data',data);
+
             d.total = data.get(d.id) || 0;
             return colorScale(d.total);
           })

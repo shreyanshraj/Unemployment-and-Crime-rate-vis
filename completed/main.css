@@ -22,3 +22,10 @@
 #category{
     margin-left: 1em;
 }
+
+.label_t{
+    font-weight: normal;
+    text-decoration: underline;
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+}
