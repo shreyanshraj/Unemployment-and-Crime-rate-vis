@@ -71,7 +71,7 @@ function mapPlot(){
       d3.select(this)
         .transition()
         .duration(200)
-        .style("stroke", "blue")
+        .style("stroke", "red")
       barGraph(d)
     }
 
@@ -117,20 +117,11 @@ function mapPlot(){
       .attr("cy", 20)
       .attr("r", 10)
       .attr("fill", function(d){return colorScale(d) })
-
-
-      // svg_hm.append('text')
-      //   // .attr('transform','rotate(90)')
-      //   .attr('y',25)
-      //   .attr('class', 'label')
-      //   .attr('x',width/2+50)
-      //   .style('text-anchor','middle')
-      //   .text('Color Legend' )
     
         svg_hm.append('text')
         // .attr('transform','rotate(90)')
         .attr('y',45)
-        .attr('class', 'label')
+        .attr('class', 'label_lt1')
         .attr('x',width/2+110)
         .style('text-anchor','middle')
         .text('2.1' )
@@ -138,7 +129,7 @@ function mapPlot(){
         svg_hm.append('text')
         // .attr('transform','rotate(90)')
         .attr('y',45)
-        .attr('class', 'label')
+        .attr('class', 'label_lt1')
         .attr('x',width/2+290)
         .style('text-anchor','middle')
         .text('5.5' )
@@ -150,7 +141,14 @@ function mapPlot(){
         .attr('x',width/2-120)
         .style('text-anchor','middle')
         .text('Chloropleth Map of unemployment' )
-      
+
+        svg_hm.append('text')
+        // .attr('transform','rotate(90)')
+        .attr('y',45)
+        .attr('class', 'label-lt')
+        .attr('x',width/2+200)
+        .style('text-anchor','middle')
+        .text('(Range of unemployment)' )
 }
 
 const data = new Map();
@@ -200,8 +198,6 @@ function barGraph(data){
   // console.log(bargraph_data[0]);
   svg_bg = d3.select('#svg_sec')
 
-  // console.log(bargraph_data[0]);
-  // var bargraph_data_arr = bargraph_data[0];
   var bargraph_data_arr = Object.entries(bargraph_data[0])
   
   // console.log(bargraph_data_arr);
@@ -256,7 +252,7 @@ function barGraph(data){
   
   // console.log('bg',bg_rect_arr);
 
-  svg_bg.selectAll("myRect")
+  svg_bg.selectAll("rect")
         .data(bg_rect_arr)
         .join("rect")
             .attr("x", d=>x(d.Name)+150 )
@@ -269,14 +265,14 @@ function barGraph(data){
   svg_bg.append('text')
   .attr('transform','rotate(-90)')
   .attr('y',height_bc/2-75)
-  .attr('class', 'label')
+  .attr('class', 'label_axis')
   .attr('x',width_bc/2-400)
   .style('text-anchor','middle')
-  .text('Number of Crime' )
+  .text('Number of Incidents' )
 
   svg_bg.append('text')
         .attr('y',height_bc/2+300)
-        .attr('class', 'label')
+        .attr('class', 'label_axis')
         .attr('x',width_bc/2+180)
         .style('text-anchor','middle')
         .text('Type of Crime' )
@@ -285,7 +281,7 @@ function barGraph(data){
   svg_bg.append('text')
   // .attr('transform','rotate(90)')
   .attr('y',height_bc/2-150)
-  .attr('class', 'label')
+  .attr('class', 'label_bg')
   .attr('x',width_bc/2+180)
   .style('text-anchor','middle')
   .text(textg_b)

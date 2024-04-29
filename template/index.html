@@ -3,13 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>{Title of HW}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- <link rel="stylesheet" href="main.css">
-        <script src="main.js"  defer></script> -->
+        <link rel="stylesheet" href="/template/main.css">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
     </head>
     <body>        
-        
+        <div id="main-container">
+            <div class="main-container">
+                <h1 class="text-center" >Homework #: {{Title of the HW}}</h1>
+                <h3 class="text-center">Your Name - asurite@asu.edu</h3>
+                
+                <div  id="svg_container">
+                <svg id="svg_main" class="border border-dark rounded bg-light shadow-sm" ></svg>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

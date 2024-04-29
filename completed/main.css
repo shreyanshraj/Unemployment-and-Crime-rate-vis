@@ -29,3 +29,28 @@
     font-size: 1.1em;
     margin-bottom: 0.5em;
 }
+
+.label-lt{
+    font-weight: 500;
+    font-size: 0.7em;
+}
+
+.label_lt1{
+    font-size: .9em;
+    font-weight: 500;
+}
+
+.label_bg{
+    font-weight: 400;
+    text-decoration: underline;
+    font-size: 1.05em;
+}
+
+text{
+   font-weight:600;
+   font-size: 1.1em;
+}
+
+.label_axis{
+    font-weight: normal;
+}
