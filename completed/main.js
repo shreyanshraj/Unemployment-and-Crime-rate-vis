@@ -119,7 +119,7 @@ function mapPlot(){
       .attr("fill", function(d){return colorScale(d) })
     
         svg_hm.append('text')
-        // .attr('transform','rotate(90)')
+        // .attr('transform','rotasrpte(90)')
         .attr('y',45)
         .attr('class', 'label_lt1')
         .attr('x',width/2+110)
