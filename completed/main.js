@@ -256,7 +256,7 @@ function barGraph(data){
         .data(bg_rect_arr)
         .join("rect")
             .attr("x", d=>x(d.Name)+150 )
-            .attr("y", d=>y(d.value)+150 )
+            .attr("y", d=>y(d.value)+50.7 )
             .attr("width",  x.bandwidth())
             .attr("height", d=>y(height_bc) - y(d.value))
             .attr("fill", '#69b3a2')

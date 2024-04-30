@@ -35,6 +35,6 @@
 
 7. Screenshots of the finished assignment 
     a. Chlorpleth Map finished:  /images/chloropleth map_dv.png
-    b. barplot map finished:
-    c. Full image of the image:
-    d. GIF of the interaction: 
+    b. barplot map finished: /images/bar_graph.png
+    c. Full image of the visualisation page: /images/full page vis.png
+    d. GIF of the interaction: /images/interaction.gif
